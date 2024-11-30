@@ -1,0 +1,68 @@
+/*
+ * This file is a part of project QuickShop, the name is AbstractDatabaseCore.java
+ *  Copyright (C) PotatoCraft Studio and contributors
+ *
+ *  This program is free software: you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License as published by the
+ *  Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT
+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ *  for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+package dotarch.api.data;
+
+import org.bukkit.plugin.Plugin;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+
+public abstract class AbstractDatabaseCore {
+    private final ReentrantLock lock = new ReentrantLock(true);
+    private final Condition conditionLock = lock.newCondition();
+
+    void waitForConnection() {
+        try {
+            lock.lock();
+            conditionLock.await();
+            lock.unlock();
+        } catch (InterruptedException e) {
+            getPlugin().getLogger().log(Level.SEVERE, "Exception when waiting new database connection", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    void signalForNewConnection() {
+        lock.lock();
+        conditionLock.signal();
+        lock.unlock();
+    }
+
+    abstract void close();
+
+    /**
+     * Gets the database connection for executing queries on.
+     *
+     * @return The database connection, PLEASE MAKE SURE USING DatabaseConnection#release to CLOSE THE CONNECTION
+     */
+    synchronized DatabaseConnection getConnection() {
+        DatabaseConnection databaseConnection = getConnection0();
+        databaseConnection.markUsing();
+        return databaseConnection;
+    }
+
+    abstract protected DatabaseConnection getConnection0();
+
+    abstract public String getName();
+
+    abstract public Plugin getPlugin();
+
+}

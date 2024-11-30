@@ -1,0 +1,122 @@
+package dotarch.api;
+
+import dotarch.api.config.VirtualizedConfiguration;
+import dotarch.api.data.DotPlayer;
+import dotarch.api.events.PlayerLoadedEvent;
+import dotarch.api.messages.MessageTemplate;
+import dotarch.api.messages.Messages;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
+/**
+ * Parent class for any JavaPlugin that wants quick access to DotAPI features.
+ */
+public abstract class DotPlugin extends JavaPlugin implements Listener
+{
+    private File messagesFile;
+    private FileConfiguration messagesConfiguration;
+    private Messages messages;
+    protected final HashMap<String, VirtualizedConfiguration> virtualConfigs = new HashMap<>();
+
+    @Override
+    public void onEnable() {
+        saveDefaultConfig();
+        createMessagesConfig();
+        messages = new Messages(messagesConfiguration);
+
+        getServer().getPluginManager().registerEvents(this, this);
+        getLogger().info("DotX]--\uD83D\uDD17--[" + this.getName());
+    }
+
+    @Override
+    public void onDisable()
+    {
+
+    }
+
+    /**
+     * Allows quick resolution of config filenames on a per-class basis,
+      * @param clazz The class you're calling the method from
+     * @return The appropriate config file for that class, as you've defined.
+     */
+    public abstract String getConfigFilenameForClass(Class clazz);
+
+    /**
+     * Run any additional logic required for fully reloading your plugin here.
+     */
+    public abstract void fullReload();
+
+    /**
+     * Get virtual configuration
+     * @param filename Filename for which to retrive vConfig
+     * @return vConfig
+     */
+    public VirtualizedConfiguration getVConfig(String filename)
+    {
+        return virtualConfigs.get(filename);
+    }
+
+    /**
+     * Dynamically update a message template
+     * @param key Key at which to update the message
+     * @param newTemplate The new message template
+     */
+    public void injectMessageUpdate(String key, MessageTemplate newTemplate)
+    {
+        messages.inject(key, newTemplate);
+    }
+
+    /**
+     * Get messages
+     * @return Messages instance for your plugin
+     */
+    public Messages messages()
+    {
+        return messages;
+    }
+
+    /**
+     * Get the DotAPI plugin
+     * @return the DotAPI plugin
+     */
+    public static DotAPI api()
+    {
+        return DotAPI.getInstance();
+    }
+
+    /**
+     * Called whenever a player is loaded - use to set up initial values etc.
+     * @param player
+     */
+    public abstract void handleLoadedPlayer(DotPlayer player);
+
+    @EventHandler
+    public void onDotPlayerLoaded(PlayerLoadedEvent e)
+    {
+        handleLoadedPlayer(e.getDotPlayer());
+    }
+
+
+    private void createMessagesConfig() {
+        messagesFile = new File(getDataFolder(), "messages.yml");
+        if (!messagesFile.exists()) {
+            messagesFile.getParentFile().mkdirs();
+            saveResource("messages.yml", false);
+        }
+
+        messagesConfiguration = new YamlConfiguration();
+        try {
+            messagesConfiguration.load(messagesFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+}

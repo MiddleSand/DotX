@@ -1,0 +1,6 @@
+# DotAPI Messages - For plugin-specific messaging, look in that plugin's message.yml file.
+# All DotAPI plugins use MiniMessage for their messages!
+# To use an injected parameter, use bracket syntax. For example, for the first parameter, use {0}.
+
+version-msg: "<white><b>DotAPI</b> v.</white><dark_purple>{0}</dark_purple> <dark_gray>- </dark_gray><white>Written by Middle_Sand</white>"
+passthrough: "{0}"
