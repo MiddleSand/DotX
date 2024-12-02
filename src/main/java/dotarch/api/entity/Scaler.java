@@ -37,7 +37,7 @@ public class Scaler {
 
         AtomicReference<Double> scale = new AtomicReference<>(currentScale);
 
-        DotAPI.getInstance().getServer().getScheduler().runTaskTimer(DotAPI.getInstance(), task -> {
+        DotAPI.instance().getServer().getScheduler().runTaskTimer(DotAPI.instance(), task -> {
             scale.updateAndGet(v -> bigger ? v + stepSize : v - stepSize);
             if(scale.get() == currentScale) return;
 

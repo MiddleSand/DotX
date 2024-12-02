@@ -5,6 +5,7 @@ import dotarch.api.data.DotPlayer;
 import dotarch.api.events.PlayerLoadedEvent;
 import dotarch.api.messages.MessageTemplate;
 import dotarch.api.messages.Messages;
+import lombok.Getter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Parent class for any JavaPlugin that wants quick access to DotAPI features.
+ * Parent class for any JavaPlugin that wants to use DotX features.
  */
 public abstract class DotPlugin extends JavaPlugin implements Listener
 {
@@ -31,6 +32,28 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
         saveDefaultConfig();
         createMessagesConfig();
         messages = new Messages(messagesConfiguration);
+
+        // Load vConfigs
+        for(String filename : getConfigFilenames())
+        {
+            var vConfigFile = new File(getDataFolder(), filename);
+            if (!vConfigFile.exists()) {
+                vConfigFile.getParentFile().mkdirs();
+                saveResource(filename, false);
+            }
+
+            var vConfigUnderlying = new YamlConfiguration();
+            try {
+                vConfigUnderlying.load(vConfigFile);
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
+            virtualConfigs.put(filename, new VirtualizedConfiguration(
+                    vConfigUnderlying,
+                    filename,
+                    this
+            ));
+        }
 
         getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("DotX]--\uD83D\uDD17--[" + this.getName());
@@ -48,6 +71,12 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
      * @return The appropriate config file for that class, as you've defined.
      */
     public abstract String getConfigFilenameForClass(Class clazz);
+
+    /**
+     * Get all config filenames
+     * @return
+     */
+    public abstract String[] getConfigFilenames();
 
     /**
      * Run any additional logic required for fully reloading your plugin here.
@@ -89,7 +118,7 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
      */
     public static DotAPI api()
     {
-        return DotAPI.getInstance();
+        return DotAPI.instance();
     }
 
     /**

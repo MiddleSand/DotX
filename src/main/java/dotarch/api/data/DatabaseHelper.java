@@ -50,7 +50,7 @@ public class DatabaseHelper {
 		String serialString = getUserIfExists(player.getUniqueId());
 		if (!Objects.equals(serialString, ""))
 		{
-			return new DotPlayer(cache, player, player.getUniqueId(), DotAPI.getInstance().gson().fromJson(serialString, HashMap.class));
+			return new DotPlayer(cache, player, player.getUniqueId(), DotAPI.instance().gson().fromJson(serialString, HashMap.class));
 		}
 		else
 		{
@@ -123,7 +123,7 @@ public class DatabaseHelper {
 		String serialString = getObjectIfExists(uuid, type);
 		if (!Objects.equals(serialString, ""))
 		{
-			return new DotObject(cache, uuid, type, DotAPI.getInstance().gson().fromJson(serialString, HashMap.class));
+			return new DotObject(cache, uuid, type, DotAPI.instance().gson().fromJson(serialString, HashMap.class));
 		}
 		else
 		{
@@ -166,7 +166,7 @@ public class DatabaseHelper {
 							{
 								var uuid = UUID.fromString(results.getString("uuid"));
 								var serialString = results.getString("json");
-								var decodedProperties = DotAPI.getInstance().gson().fromJson(serialString, HashMap.class);
+								var decodedProperties = DotAPI.instance().gson().fromJson(serialString, HashMap.class);
 								DotObject object = new DotObject(cache, uuid, type, decodedProperties);
 								ret.put(uuid, object);
 							}

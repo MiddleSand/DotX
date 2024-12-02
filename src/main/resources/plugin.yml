@@ -9,3 +9,7 @@ commands:
     description: Information about DotAPI
     permission: dotapi
     usage: "§cUsage: /<command>"
+  vconfig:
+    description: VConfig options
+    permission: dotapi.vconfig
+    usage: "§cUsage: /<command>"

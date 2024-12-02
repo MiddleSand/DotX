@@ -17,7 +17,7 @@ public record DotObject(ObjectCache cache, UUID uuid, String type, HashMap<Strin
 
     String serialize()
     {
-        return DotAPI.getInstance().gson().toJson(properties);
+        return DotAPI.instance().gson().toJson(properties);
     }
 
     static DotObject load(@NotNull UUID uuid, @NotNull String type, @NotNull ObjectCache cache)

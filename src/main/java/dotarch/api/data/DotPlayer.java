@@ -15,7 +15,7 @@ public record DotPlayer(PlayerCache cache, Player player, UUID uuid, HashMap<Str
 
     String serialize()
     {
-        return DotAPI.getInstance().gson().toJson(properties);
+        return DotAPI.instance().gson().toJson(properties);
     }
 
     static DotPlayer load(@NotNull Player player, @NotNull PlayerCache cache)

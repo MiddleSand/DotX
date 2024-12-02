@@ -30,7 +30,7 @@ public class MessageTemplate
         {
             compiledMessage = compiledMessage.replace("{" + i + "}", arguments[i]);
         }
-        return DotAPI.getInstance().miniMessage().deserialize(compiledMessage);
+        return DotAPI.instance().miniMessage().deserialize(compiledMessage);
     }
 
     /**
@@ -52,6 +52,6 @@ public class MessageTemplate
         compiledMessage = PlaceholderAPI.setPlaceholders(player, compiledMessage);
 
         //Send MiniMessage
-        return DotAPI.getInstance().miniMessage().deserialize(compiledMessage);
+        return DotAPI.instance().miniMessage().deserialize(compiledMessage);
     }
 }

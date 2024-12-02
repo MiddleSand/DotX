@@ -2,6 +2,7 @@ package dotarch.api;
 
 import com.google.gson.Gson;
 import dotarch.api.commands.DotAPICommand;
+import dotarch.api.commands.VConfigCommand;
 import dotarch.api.data.*;
 import dotarch.api.web.WebserverThread;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -45,8 +46,10 @@ public class DotAPI extends DotPlugin {
 		web = new WebserverThread(this);
 
 		getServer().getPluginManager().registerEvents(playerCache, this);
+		getServer().getPluginManager().registerEvents(web, this);
 		this.getCommand("dotapi").setExecutor(new DotAPICommand());
-		getLogger().info("DotAPI enabled");
+		this.getCommand("vconfig").setExecutor(new VConfigCommand());
+		getLogger().info("DotX API plugin enabled");
 	}
 
 	@Override
@@ -63,27 +66,41 @@ public class DotAPI extends DotPlugin {
 
 	}
 
+	public void restartWebserver()
+	{
+		this.web = new WebserverThread(this);
+	}
+
 	@Override
 	public String getConfigFilenameForClass(Class clazz)
 	{
 		return "config.yml";
 	}
 
-	public static DotAPI getInstance()
+	@Override
+	public String[] getConfigFilenames()
+	{
+		return new String[]
+				{
+						"config.yml"
+				};
+	}
+
+	public static DotAPI instance()
 	{
 		return self;
 	}
 
 	public Gson gson()
 	{
-		return getInstance().gson;
+		return instance().gson;
 	}
 
 	public PlayerCache players()
 	{
-		return getInstance().playerCache;
+		return instance().playerCache;
 	}
-	public ObjectCache objects() { return getInstance().objectCache; }
+	public ObjectCache objects() { return instance().objectCache; }
 
 	@Override
 	public void handleLoadedPlayer(DotPlayer player)
@@ -93,7 +110,7 @@ public class DotAPI extends DotPlugin {
 
 	public MiniMessage miniMessage()
 	{
-		return getInstance().miniMessage;
+		return instance().miniMessage;
 	}
 
 	public String getDbPrefix()

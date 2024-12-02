@@ -1,5 +1,6 @@
 package dotarch.api.events;
 
+import dotarch.api.DotPlugin;
 import dotarch.api.config.VirtualConfigEntry;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,8 @@ public class VConfigurationEvent extends Event {
     @Getter
     private final String filename;
 
+    @Getter
+    private final DotPlugin owningPlugin;
 
     public static HandlerList getHandlerList() {
         return HANDLERS;
