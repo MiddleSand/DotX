@@ -1,2 +1,16 @@
 # Project exclude paths
 /target/
+/.classpath
+/.project
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/compiler.xml
+/${dir}/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+/${dir}/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.settings/org.eclipse.jdt.core.prefs
+/.settings/org.eclipse.m2e.core.prefs
+/null/original-api-0.0.1.jar
+/.idea/uiDesigner.xml
+/.idea/vcs.xml
