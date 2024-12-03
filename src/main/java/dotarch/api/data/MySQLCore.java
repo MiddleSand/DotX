@@ -19,7 +19,7 @@
 
 package dotarch.api.data;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.DriverManager;
@@ -37,10 +37,10 @@ public class MySQLCore extends AbstractDatabaseCore {
      */
     private final Properties info;
     private final String url;
-    private final DotAPI plugin;
+    private final DotX plugin;
 
     public MySQLCore(
-            DotAPI plugin,
+            DotX plugin,
              String host,
              String user,
              String pass,

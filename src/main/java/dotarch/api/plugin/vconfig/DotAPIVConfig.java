@@ -1,6 +1,6 @@
 package dotarch.api.plugin.vconfig;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import dotarch.api.events.VConfigurationEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,11 +10,11 @@ public class DotAPIVConfig implements Listener
     @EventHandler
     public void onVConfig(VConfigurationEvent e)
     {
-        if (e.getOwningPlugin() == DotAPI.instance())
+        if (e.getOwningPlugin() == DotX.instance())
         {
-            if(e.symbolPresent(DotAPI.instance().getVConfig("config.yml").getEntry("web.port")))
+            if(e.symbolPresent(DotX.instance().getVConfig("config.yml").getEntry("web.port")))
             {
-                DotAPI.instance().restartWebserver();
+                DotX.instance().restartWebserver();
             }
         }
     }

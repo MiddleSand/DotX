@@ -6,6 +6,7 @@
   <name>DotAPI</name>
   <version>0.0.1</version>
   <build>
+    <directory>${dir}</directory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

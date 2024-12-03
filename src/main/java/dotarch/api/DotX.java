@@ -9,9 +9,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.util.logging.Level;
 
-public class DotAPI extends DotPlugin {
+public class DotX extends DotPlugin {
 
-	private static DotAPI self;
+	private static DotX self;
 
 	// Helpers
 	private Gson gson;
@@ -86,7 +86,7 @@ public class DotAPI extends DotPlugin {
 				};
 	}
 
-	public static DotAPI instance()
+	public static DotX instance()
 	{
 		return self;
 	}

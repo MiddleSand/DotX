@@ -1,20 +1,15 @@
 package dotarch.api.commands;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import dotarch.api.DotPlugin;
 import dotarch.api.config.VirtualConfigEntry;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class VConfigCommand implements CommandExecutor
 {
@@ -36,17 +31,17 @@ public class VConfigCommand implements CommandExecutor
                 if(args.length < 5)
                 {
                     Component send =
-                            DotAPI.instance().messages().message("title").apply(new String[]{"/vconfig update"})
+                            DotX.instance().messages().message("title").apply(new String[]{"/vconfig update"})
                                     .appendNewline()
                                     .append(
-                                            DotAPI.instance().messages().message("vconfig-update-help").apply(new String[]{})
+                                            DotX.instance().messages().message("vconfig-update-help").apply(new String[]{})
                                     ).appendNewline()
                                     .appendNewline()
                                     .append(
-                                            DotAPI.instance().messages().message("title").apply(new String[]{"Usage"})
+                                            DotX.instance().messages().message("title").apply(new String[]{"Usage"})
                                     ).appendNewline()
                                     .append(
-                                            DotAPI.instance().messages().message("list-item").apply(new String[]{
+                                            DotX.instance().messages().message("list-item").apply(new String[]{
                                                     "/vconfig update <plugin class> <filepath> <config key> <new value>"
                                             })
                                     );
@@ -61,10 +56,10 @@ public class VConfigCommand implements CommandExecutor
                 } catch (ClassNotFoundException e)
                 {
                     Component send =
-                            DotAPI.instance().messages().message("title").apply(new String[]{"Command error"})
+                            DotX.instance().messages().message("title").apply(new String[]{"Command error"})
                                     .appendNewline()
                                     .append(
-                                            DotAPI.instance().messages().message("list-item").apply(new String[]{
+                                            DotX.instance().messages().message("list-item").apply(new String[]{
                                                     "Plugin class '" + args[1] + "' doesn't seem to exist! Cannot hot-edit config..."
                                             })
                                     );
@@ -75,10 +70,10 @@ public class VConfigCommand implements CommandExecutor
                 if(!DotPlugin.class.isAssignableFrom(targetPluginClass))
                 {
                     Component send =
-                            DotAPI.instance().messages().message("title").apply(new String[]{"Command error"})
+                            DotX.instance().messages().message("title").apply(new String[]{"Command error"})
                                     .appendNewline()
                                     .append(
-                                            DotAPI.instance().messages().message("list-item").apply(new String[]{
+                                            DotX.instance().messages().message("list-item").apply(new String[]{
                                                     "Plugin class '" + args[1] + "' isn't a DotX-enabled plugin! Cannot hot-edit config..."
                                             })
                                     );
@@ -106,10 +101,10 @@ public class VConfigCommand implements CommandExecutor
                 if(!Arrays.stream(configurablePlugin.getConfigFilenames()).toList().contains(args[2]))
                 {
                     Component send =
-                            DotAPI.instance().messages().message("title").apply(new String[]{"Command error"})
+                            DotX.instance().messages().message("title").apply(new String[]{"Command error"})
                                     .appendNewline()
                                     .append(
-                                            DotAPI.instance().messages().message("list-item").apply(new String[]{
+                                            DotX.instance().messages().message("list-item").apply(new String[]{
                                                     "Config file '" + args[2] + "' does not exist in plugin. Cannot hot-edit config..."
                                             })
                                     );
@@ -126,19 +121,19 @@ public class VConfigCommand implements CommandExecutor
                 catch (Exception e)
                 {
                     Component send =
-                            DotAPI.instance().messages().message("title").apply(new String[]{"Command error"})
+                            DotX.instance().messages().message("title").apply(new String[]{"Command error"})
                                     .appendNewline()
                                     .append(
-                                            DotAPI.instance().messages().message("list-item").apply(new String[]{
+                                            DotX.instance().messages().message("list-item").apply(new String[]{
                                                     "Error editing value, incident details have been logged. Cannot hot-edit config..."
                                             })
                                     );
                     sender.sendMessage(send);
-                    DotAPI.instance().getLogger().severe(Arrays.toString(e.getStackTrace()));
+                    DotX.instance().getLogger().severe(Arrays.toString(e.getStackTrace()));
                     return true;
                 }
                 Component send =
-                        DotAPI.instance().messages().message("title").apply(new String[]{"Modified"});
+                        DotX.instance().messages().message("title").apply(new String[]{"Modified"});
                 sender.sendMessage(send);
                 return true;
             }
@@ -148,17 +143,17 @@ public class VConfigCommand implements CommandExecutor
     public void sendHelpMessage(final CommandSender sendTo)
     {
         Component send =
-                DotAPI.instance().messages().message("title").apply(new String[]{"VConfig"})
+                DotX.instance().messages().message("title").apply(new String[]{"VConfig"})
                         .appendNewline()
                         .append(
-                                DotAPI.instance().messages().message("vconfig-welcome").apply(new String[]{})
+                                DotX.instance().messages().message("vconfig-welcome").apply(new String[]{})
                         ).appendNewline()
                         .appendNewline()
                         .append(
-                                DotAPI.instance().messages().message("title").apply(new String[]{"Subcommands"})
+                                DotX.instance().messages().message("title").apply(new String[]{"Subcommands"})
                         ).appendNewline()
                         .append(
-                                DotAPI.instance().messages().message("list-item").apply(new String[]{"/vconfig update"})
+                                DotX.instance().messages().message("list-item").apply(new String[]{"/vconfig update"})
                         );
         sendTo.sendMessage(send);
     }

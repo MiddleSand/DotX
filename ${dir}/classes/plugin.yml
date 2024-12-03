@@ -1,0 +1,15 @@
+name: DotAPI
+main: dotarch.api.DotAPI
+version: 0.0.1
+api-version: 1.21
+load: startup
+depend: [PlaceholderAPI]
+commands:
+  dotapi:
+    description: Information about DotAPI
+    permission: dotapi
+    usage: "§cUsage: /<command>"
+  vconfig:
+    description: VConfig options
+    permission: dotapi.vconfig
+    usage: "§cUsage: /<command>"

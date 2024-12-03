@@ -1,26 +1,48 @@
 package dotarch.api.data;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import dotarch.api.events.PlayerLoadedEvent;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.UUID;
-
-public record DotPlayer(PlayerCache cache, Player player, UUID uuid, HashMap<String, String> properties)
+@RequiredArgsConstructor
+public class DotPlayer
 {
+    private final PlayerCache cache;
+    public PlayerCache cache()
+    {
+        return cache;
+    }
+
+    private final Player player;
+    public Player player()
+    {
+        return player;
+    }
+
+    private final UUID uuid;
+    public UUID uuid()
+    {
+        return uuid;
+    }
+
+    private final HashMap<String, String> properties;
+
     static final HashMap<String, String> initHashMap = new HashMap<String, String>();
+    private final HashMap<String, String> transientProperties = new HashMap<String, String>();
 
     String serialize()
     {
-        return DotAPI.instance().gson().toJson(properties);
+        return DotX.instance().gson().toJson(properties);
     }
 
     static DotPlayer load(@NotNull Player player, @NotNull PlayerCache cache)
     {
-        var loadedDotPlayer = DotAPI.databaseHelper.readUUID(player, cache);
+        var loadedDotPlayer = DotX.databaseHelper.readUUID(player, cache);
         PlayerLoadedEvent event = new PlayerLoadedEvent(player, loadedDotPlayer);
         Bukkit.getPluginManager().callEvent(event);
         return loadedDotPlayer;
@@ -28,7 +50,7 @@ public record DotPlayer(PlayerCache cache, Player player, UUID uuid, HashMap<Str
 
     public void save()
     {
-        DotAPI.databaseHelper.updateUser(this);
+        DotX.databaseHelper.updateUser(this);
     }
 
     public boolean hasProperty(String key)
@@ -51,7 +73,13 @@ public record DotPlayer(PlayerCache cache, Player player, UUID uuid, HashMap<Str
 
     public String getProperty(String key, String defaultValue)
     {
-        return properties.getOrDefault(key, defaultValue);
+        var returnable = properties.get(key);
+        if(returnable == null)
+        {
+            DotX.api().getLogger().warning("Tracked property '" + key + "' of DotPlayer '" + player.getName() + "' is null upon read...");
+            return defaultValue;
+        }
+        return properties.get(key);
     }
 
     /**
@@ -77,5 +105,32 @@ public record DotPlayer(PlayerCache cache, Player player, UUID uuid, HashMap<Str
         {
             save();
         }
+    }
+
+    /**
+     *
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    public Object getTransient(String key, String defaultValue)
+    {
+        var returnable = transientProperties.get(key);
+        if(returnable == null)
+        {
+            DotX.api().getLogger().warning("Transient property '" + key + "' of DotPlayer '" + player.getName() + "' is null upon read...");
+            return defaultValue;
+        }
+        return transientProperties.get(key);
+    }
+
+    public void writeTransient(String key, String store)
+    {
+        transientProperties.put(key, store);
+    }
+
+    public boolean hasTransient(String key)
+    {
+        return transientProperties.containsKey(key);
     }
 }

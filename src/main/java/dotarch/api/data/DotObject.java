@@ -1,10 +1,8 @@
 package dotarch.api.data;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import dotarch.api.events.ObjectLoadedEvent;
-import dotarch.api.events.PlayerLoadedEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -17,7 +15,7 @@ public record DotObject(ObjectCache cache, UUID uuid, String type, HashMap<Strin
 
     String serialize()
     {
-        return DotAPI.instance().gson().toJson(properties);
+        return DotX.instance().gson().toJson(properties);
     }
 
     static DotObject load(@NotNull UUID uuid, @NotNull String type, @NotNull ObjectCache cache)
@@ -27,7 +25,7 @@ public record DotObject(ObjectCache cache, UUID uuid, String type, HashMap<Strin
 
     static DotObject load(@NotNull UUID uuid, @NotNull String type, @NotNull ObjectCache cache, @NotNull HashMap<String, String> initializationMapIfMissing)
     {
-        var loadedDotObject = DotAPI.databaseHelper.readObject(uuid, type, cache, initializationMapIfMissing);
+        var loadedDotObject = DotX.databaseHelper.readObject(uuid, type, cache, initializationMapIfMissing);
         ObjectLoadedEvent event = new ObjectLoadedEvent(loadedDotObject);
         Bukkit.getPluginManager().callEvent(event);
         return loadedDotObject;
@@ -35,7 +33,7 @@ public record DotObject(ObjectCache cache, UUID uuid, String type, HashMap<Strin
 
     public void save()
     {
-        DotAPI.databaseHelper.updateObject(this);
+        DotX.databaseHelper.updateObject(this);
     }
 
     public boolean hasProperty(String key)

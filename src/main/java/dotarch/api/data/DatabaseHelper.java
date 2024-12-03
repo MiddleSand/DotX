@@ -1,6 +1,6 @@
 package dotarch.api.data;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -8,12 +8,9 @@ import javax.annotation.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.Instant;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.logging.Level;
 
 /**
  * A Util to execute all SQLs.
@@ -22,9 +19,9 @@ public class DatabaseHelper {
 
 	private final DatabaseManager manager;
 
-	private final DotAPI plugin;
+	private final DotX plugin;
 
-	public DatabaseHelper(DotAPI plugin, DatabaseManager manager) throws SQLException {
+	public DatabaseHelper(DotX plugin, DatabaseManager manager) throws SQLException {
 		this.plugin = plugin;
 		this.manager = manager;
 		if (!manager.hasTable(plugin.getDbPrefix() + "users")) {
@@ -50,7 +47,7 @@ public class DatabaseHelper {
 		String serialString = getUserIfExists(player.getUniqueId());
 		if (!Objects.equals(serialString, ""))
 		{
-			return new DotPlayer(cache, player, player.getUniqueId(), DotAPI.instance().gson().fromJson(serialString, HashMap.class));
+			return new DotPlayer(cache, player, player.getUniqueId(), DotX.instance().gson().fromJson(serialString, HashMap.class));
 		}
 		else
 		{
@@ -123,7 +120,7 @@ public class DatabaseHelper {
 		String serialString = getObjectIfExists(uuid, type);
 		if (!Objects.equals(serialString, ""))
 		{
-			return new DotObject(cache, uuid, type, DotAPI.instance().gson().fromJson(serialString, HashMap.class));
+			return new DotObject(cache, uuid, type, DotX.instance().gson().fromJson(serialString, HashMap.class));
 		}
 		else
 		{
@@ -166,7 +163,7 @@ public class DatabaseHelper {
 							{
 								var uuid = UUID.fromString(results.getString("uuid"));
 								var serialString = results.getString("json");
-								var decodedProperties = DotAPI.instance().gson().fromJson(serialString, HashMap.class);
+								var decodedProperties = DotX.instance().gson().fromJson(serialString, HashMap.class);
 								DotObject object = new DotObject(cache, uuid, type, decodedProperties);
 								ret.put(uuid, object);
 							}

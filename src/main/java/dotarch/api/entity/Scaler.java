@@ -1,6 +1,6 @@
 package dotarch.api.entity;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import dotarch.api.data.inmemory.AttributeModifier;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.attribute.Attribute;
@@ -37,7 +37,7 @@ public class Scaler {
 
         AtomicReference<Double> scale = new AtomicReference<>(currentScale);
 
-        DotAPI.instance().getServer().getScheduler().runTaskTimer(DotAPI.instance(), task -> {
+        DotX.instance().getServer().getScheduler().runTaskTimer(DotX.instance(), task -> {
             scale.updateAndGet(v -> bigger ? v + stepSize : v - stepSize);
             if(scale.get() == currentScale) return;
 

@@ -19,7 +19,7 @@
 
 package dotarch.api.data;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -30,10 +30,10 @@ import java.sql.SQLException;
 public class SQLiteCore extends AbstractDatabaseCore {
     private final File dbFile;
 
-    private final DotAPI plugin;
+    private final DotX plugin;
     private DatabaseConnection connection;
 
-    public SQLiteCore(DotAPI plugin, File dbFile) {
+    public SQLiteCore(DotX plugin, File dbFile) {
         this.plugin = plugin;
         this.dbFile = dbFile;
     }

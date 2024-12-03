@@ -3,6 +3,7 @@ package dotarch.api.config;
 import dotarch.api.DotPlugin;
 import dotarch.api.events.VConfigurationEvent;
 import lombok.Getter;
+import lombok.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
@@ -29,9 +30,17 @@ public class VirtualizedConfiguration
         reload(false);
     }
 
+    @NonNull
     public VirtualConfigEntry getEntry(String key)
     {
-        return this.entries.get(key);
+        var retrieved = this.entries.get(key);
+        if(retrieved == null)
+        {
+            throw new NullPointerException(
+                    "Configuration key " + key + " does not exist, please consult file " + filename + " of plugin " + plugin.getName() + " and fix your mistakes."
+            );
+        }
+        return retrieved;
     }
 
 

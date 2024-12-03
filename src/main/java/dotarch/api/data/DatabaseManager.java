@@ -19,7 +19,7 @@
 
 package dotarch.api.data;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import org.bukkit.plugin.IllegalPluginAccessException;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -35,7 +35,7 @@ public class DatabaseManager {
 
     private final Queue<DatabaseTask> sqlQueue = new LinkedBlockingQueue<>();
     private final AbstractDatabaseCore database;
-    private final DotAPI plugin;
+    private final DotX plugin;
     private final boolean useQueue;
     private BukkitTask task;
 
@@ -46,7 +46,7 @@ public class DatabaseManager {
      * @param dbCore database core
      * @throws ConnectionException when database connection failed
      */
-    public DatabaseManager(DotAPI plugin, AbstractDatabaseCore dbCore) throws ConnectionException {
+    public DatabaseManager(DotX plugin, AbstractDatabaseCore dbCore) throws ConnectionException {
         this.plugin = plugin;
         DatabaseConnection connection = dbCore.getConnection();
         try {

@@ -5,7 +5,6 @@ import dotarch.api.data.DotPlayer;
 import dotarch.api.events.PlayerLoadedEvent;
 import dotarch.api.messages.MessageTemplate;
 import dotarch.api.messages.Messages;
-import lombok.Getter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -116,9 +115,9 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
      * Get the DotAPI plugin
      * @return the DotAPI plugin
      */
-    public static DotAPI api()
+    public static DotX api()
     {
-        return DotAPI.instance();
+        return DotX.instance();
     }
 
     /**

@@ -1,6 +1,6 @@
 package dotarch.api.messages;
 
-import dotarch.api.DotAPI;
+import dotarch.api.DotX;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -30,16 +30,16 @@ public class MessageTemplate
         {
             compiledMessage = compiledMessage.replace("{" + i + "}", arguments[i]);
         }
-        return DotAPI.instance().miniMessage().deserialize(compiledMessage);
+        return DotX.instance().miniMessage().deserialize(compiledMessage);
     }
 
     /**
-     * Like {@link MessageTemplate::apply} except with per-player PAPI support.
+     * Apply with per-player PAPI support.
      * @param arguments List of template args to submit to the template.
      * @param player The player against whom PAPI may be applied.
      * @return Compiled MiniMessage component
      */
-    public Component applyToPlayer(String[] arguments, Player player)
+    public Component apply(String[] arguments, Player player)
     {
         // Build placeholders
 
@@ -52,6 +52,6 @@ public class MessageTemplate
         compiledMessage = PlaceholderAPI.setPlaceholders(player, compiledMessage);
 
         //Send MiniMessage
-        return DotAPI.instance().miniMessage().deserialize(compiledMessage);
+        return DotX.instance().miniMessage().deserialize(compiledMessage);
     }
 }
