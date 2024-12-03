@@ -1,9 +1,0 @@
-db:
-  sensitive: true
-  url: "localhost"
-  port: 3306
-  username: ""
-  password: ""
-  database: "DotApi"
-web:
-  port: 8081
