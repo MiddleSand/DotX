@@ -166,6 +166,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <excludePackageNames>com.fasterxml.*:com.aayushatharva.*</excludePackageNames>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
