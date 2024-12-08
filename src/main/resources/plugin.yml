@@ -1,6 +1,6 @@
-name: DotAPI
-main: dotarch.api.DotX
-version: 0.0.1
+name: DotX
+main: co.dotarch.x.plugin.DotX
+version: 0.0.0.4
 api-version: 1.21
 load: startup
 depend: [PlaceholderAPI]

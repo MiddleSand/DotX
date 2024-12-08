@@ -1,3 +1,5 @@
+# System settings
+
 db:
   sensitive: true
   url: "localhost"
@@ -7,3 +9,4 @@ db:
   database: "DotApi"
 web:
   port: 8081
+

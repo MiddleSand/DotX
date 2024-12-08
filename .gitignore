@@ -14,3 +14,5 @@
 /null/original-api-0.0.1.jar
 /.idea/uiDesigner.xml
 /.idea/vcs.xml
+/${dir}/
+/null/

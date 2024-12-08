@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>dotarch</groupId>
-  <artifactId>dotx</artifactId>
-  <version>0.0.3</version>
+  <groupId>co.dotarch</groupId>
+  <artifactId>x</artifactId>
+  <version>0.0.0.4</version>
    <name>DotX</name>
   <repositories>
       <repository>
@@ -74,6 +74,31 @@
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
             <version>6.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.saicone.rtag</groupId>
+            <artifactId>rtag</artifactId>
+            <version>1.5.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Other modules -->
+        <dependency>
+            <groupId>com.saicone.rtag</groupId>
+            <artifactId>rtag-block</artifactId>
+            <version>1.5.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.saicone.rtag</groupId>
+            <artifactId>rtag-entity</artifactId>
+            <version>1.5.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.saicone.rtag</groupId>
+            <artifactId>rtag-item</artifactId>
+            <version>1.5.8</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
