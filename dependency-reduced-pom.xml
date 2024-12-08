@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>co.dotarch</groupId>
+  <groupId>co.dotarch.paper</groupId>
   <artifactId>x</artifactId>
   <name>DotX</name>
-  <version>0.0.0.4</version>
+  <version>0.3.2.4</version>
+  <description>A flexible, modern API for developing Paper plugins</description>
+  <developers>
+    <developer>
+      <id>middle_sand</id>
+      <name>Middle_Sand</name>
+      <email>officialdotarch@gmail.com</email>
+      <organization>Dotarch</organization>
+    </developer>
+  </developers>
   <build>
     <directory>${dir}</directory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>21</source>
-          <target>21</target>
+          <source>19</source>
+          <target>19</target>
         </configuration>
       </plugin>
       <plugin>
@@ -27,6 +36,55 @@
           </execution>
         </executions>
         <configuration />
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludePackageNames>io.papermc.*:org.bukkit.*</excludePackageNames>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.6.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -153,6 +211,30 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.36</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.saicone.rtag</groupId>
+      <artifactId>rtag</artifactId>
+      <version>1.5.8</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.saicone.rtag</groupId>
+      <artifactId>rtag-block</artifactId>
+      <version>1.5.8</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.saicone.rtag</groupId>
+      <artifactId>rtag-entity</artifactId>
+      <version>1.5.8</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.saicone.rtag</groupId>
+      <artifactId>rtag-item</artifactId>
+      <version>1.5.8</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

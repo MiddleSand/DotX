@@ -5,13 +5,10 @@ import com.saicone.rtag.RtagBlock;
 import com.saicone.rtag.RtagItem;
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
@@ -134,7 +131,6 @@ public class BlockCache implements Listener
                         }
                     );
                 }
-                // TODO: check if blocks should drop items with the correct behavior tag and nbt data haha
             }
             catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
             {

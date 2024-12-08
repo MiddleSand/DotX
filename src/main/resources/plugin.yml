@@ -1,8 +1,8 @@
 name: DotX
 main: co.dotarch.x.plugin.DotX
-version: 0.0.0.4
+version: 0.3.2.4
 api-version: 1.21
-load: startup
+load: STARTUP
 depend: [PlaceholderAPI]
 commands:
   dotapi:
