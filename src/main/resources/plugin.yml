@@ -13,3 +13,7 @@ commands:
     description: VConfig options
     permission: dotapi.vconfig
     usage: "§cUsage: /<command>"
+  dotblock:
+    description: Get dot block
+    permission: dotapi.dotblock
+    usage: "§cUsage: /<command> <material> <class>"

@@ -1,15 +1,10 @@
 package co.dotarch.x.data;
 
-import co.dotarch.x.block.BehaviorClass;
-import co.dotarch.x.events.PlayerLoadedEvent;
+import co.dotarch.x.block.BlockBehavior;
 import co.dotarch.x.plugin.DotX;
 import com.saicone.rtag.RtagBlock;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -35,7 +30,7 @@ public class DotBlock
     private final UUID uuid;
 
     @Getter
-    private Class<? extends BehaviorClass> behaviorClass = null;
+    private Class<? extends BlockBehavior> behaviorClass = null;
 
     /**
      * Special properties:
@@ -58,7 +53,7 @@ public class DotBlock
             tag.set(properties.get(BLOCK_BEHAVIOR_PROPERTY), "dotx_class");
             try
             {
-                behaviorClass = (Class<? extends BehaviorClass>) Class.forName(className);
+                behaviorClass = (Class<? extends BlockBehavior>) Class.forName(className);
             }
             catch (ClassNotFoundException e)
             {

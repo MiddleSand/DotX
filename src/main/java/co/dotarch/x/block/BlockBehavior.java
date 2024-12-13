@@ -7,7 +7,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public abstract class BehaviorClass
+public abstract class BlockBehavior
 {
     public static boolean shouldDrop(DotBlock block)
     {
