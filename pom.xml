@@ -65,11 +65,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>io.javalin</pattern>
-                                    <shadedPattern>x.depend.io.javalin</shadedPattern>
-                                    <excludes>
-                                        <exclude>org.codehaus.plexus.util.xml.Xpp3Dom</exclude>
-                                        <exclude>org.codehaus.plexus.util.xml.pull.*</exclude>
-                                    </excludes>
+                                    <shadedPattern>io.shaded.javalin</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -178,7 +174,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <excludePackageNames>com.fasterxml.*:com.aayushatharva.*</excludePackageNames>
+                            <excludePackageNames>io.javalin.*:io.shaded.javalin.*</excludePackageNames>
                         </configuration>
                     </plugin>
                     <plugin>
