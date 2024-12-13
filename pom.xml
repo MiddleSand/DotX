@@ -61,14 +61,7 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <relocations>
-                                <relocation>
-                                    <pattern>io.javalin</pattern>
-                                    <shadedPattern>io.shaded.javalin</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
+
                     </execution>
                 </executions>
             </plugin>
