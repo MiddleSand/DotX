@@ -10,7 +10,7 @@ jobs:
     environment: Publisher
     steps:
       - uses: actions/checkout@v3
-
+      
       - name: Set up JDK 21 for deploy to Sonatype
         uses: actions/setup-java@v3
         with:
@@ -21,6 +21,10 @@ jobs:
           server-password: MAVEN_CENTRAL_TOKEN
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
+
+      - name: Inject BS settings-security.yml to placate maven-gpg-plugin
+        run: echo "<settingsSecurity><master></master></settingsSecurity>" > ~/.m2/settings-security.xml
+        
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
