@@ -7,6 +7,7 @@
 
     <name>DotX</name>
     <description>A flexible, modern API for developing Paper plugins</description>
+    <url>https://github.com/MiddleSand/DotX</url>
 
     <developers>
         <developer>
@@ -23,6 +24,17 @@
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/MiddleSand/DotX/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:MiddleSand/DotX.git</connection>
+        <developerConnection>scm:git:git@github.com:MiddleSand/DotX.git</developerConnection>
+        <url>git@github.com:MiddleSand/DotX.git</url>
+    </scm>
 
     <repositories>
       <repository>
