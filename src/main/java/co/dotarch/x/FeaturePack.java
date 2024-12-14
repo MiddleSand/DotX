@@ -7,6 +7,10 @@ import org.bukkit.event.Listener;
 
 public abstract class FeaturePack extends DotPlugin
 {
+    /**
+     * Gets the key associated - Return whatever identifer your pack uses in dotSignals
+     * @return Your pack's key
+     */
     public abstract String getKey();
 
     @Override

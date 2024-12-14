@@ -168,6 +168,8 @@
                         </executions>
                         <configuration>
                             <excludePackageNames>io.javalin.*:io.shaded.javalin.*</excludePackageNames>
+                            <failOnError>false</failOnError>
+                            <includeOptionalDependencies>false</includeOptionalDependencies>
                         </configuration>
                     </plugin>
                     <plugin>
