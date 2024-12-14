@@ -27,7 +27,14 @@ jobs:
 
       - name: Prepare Maven environnement with Java 21 for deployment to Sonatype
         run: export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
-
+      - name: Import GPG private key
+        env:
+          MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+        run: |
+          f=`mktemp`
+          echo "${MAVEN_GPG_PRIVATE_KEY}" > "$f"
+          gpg --batch --import-options import-show --import "$f"
+        
       - name: Publish to Apache Maven Central
         run: mvn deploy -PsonatypeDeploy
         env:
