@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>co.dotarch.paper</groupId>
     <artifactId>x</artifactId>
-    <version>0.3.2.4</version>
+    <version>0.3.3.4</version>
 
     <name>DotX</name>
     <description>A flexible, modern API for developing Paper plugins</description>
