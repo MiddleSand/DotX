@@ -1,4 +1,4 @@
-package co.dotarch.x.commands;
+package co.dotarch.x.commands.info;
 
 import co.dotarch.x.plugin.DotX;
 import net.kyori.adventure.text.Component;

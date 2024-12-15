@@ -1,27 +1,29 @@
 package co.dotarch.x.data;
 
+import co.dotarch.x.plugin.DotX;
+
 import java.util.HashMap;
 import java.util.UUID;
 
 public class ObjectCache
 {
-    private static HashMap<String, HashMap<UUID, DotObject>> cache = new HashMap<>();
+    private final HashMap<String, HashMap<String, DotObject>> cache = new HashMap<>();
 
-    public DotObject get(UUID uuid, String type, HashMap<String, String> initializationMapIfMissing)
+    public DotObject get(String key, String type, HashMap<String, String> initializationMapIfMissing)
     {
-        if(cache.containsKey(type) && cache.get(type).containsKey(uuid))
+        if(cache.containsKey(type) && cache.get(type).containsKey(key))
         {
-            return cache.get(type).get(uuid);
+            return cache.get(type).get(key);
         }
         else
         {
             if(initializationMapIfMissing == null)
             {
-                return DotObject.load(uuid, type, this);
+                return DotObject.load(key, type, this);
             }
             else
             {
-                return DotObject.load(uuid, type, this, initializationMapIfMissing);
+                return DotObject.load(key, type, this, initializationMapIfMissing);
             }
         }
     }
@@ -31,21 +33,21 @@ public class ObjectCache
         if(cache.containsKey(obj.type()))
         {
             var set = cache.get(obj.type());
-            set.put(obj.uuid(), obj);
+            set.put(obj.key(), obj);
         }
         else
         {
-            var set = new HashMap<UUID, DotObject>();
-            set.put(obj.uuid(), obj);
+            var set = new HashMap<String, DotObject>();
+            set.put(obj.key(), obj);
             cache.put(obj.type(), set);
         }
     }
 
     private void removeFromCache(DotObject obj)
     {
-        if(cache.containsKey(obj.type()) && cache.get(obj.type()).containsKey(obj.uuid()))
+        if(cache.containsKey(obj.type()) && cache.get(obj.type()).containsKey(obj.key()))
         {
-            cache.get(obj.type()).remove(obj.uuid());
+            cache.get(obj.type()).remove(obj.key());
             // Cleanup type if not needed anymore
             if(cache.get(obj.type()).isEmpty())
             {
@@ -55,7 +57,7 @@ public class ObjectCache
         else
         {
             // This should never happen.
-            throw new RuntimeException("Object " + obj.uuid().toString() + " (" + obj.type() + ", " + obj.serialize() + ") attempted cache removal and somehow wasn't in the cache to begin with. Something is very wrong!");
+            throw new RuntimeException("Object " + obj.key() + " (" + obj.type() + ", " + obj.serialize() + ") attempted cache removal and somehow wasn't in the cache to begin with. Something is very wrong!");
         }
     }
 
@@ -68,4 +70,17 @@ public class ObjectCache
         });
     }
 
+    public boolean delete(String key, String type)
+    {
+        if(cache.containsKey(type))
+        {
+            var obj = cache.get(type).remove(key);
+            if(obj != null)
+            {
+                obj.delete();
+            }
+            return obj != null;
+        }
+        return false;
+    }
 }

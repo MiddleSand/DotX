@@ -11,7 +11,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,16 @@ import java.util.HashMap;
  */
 public abstract class DotPlugin extends JavaPlugin implements Listener
 {
+    public DotPlugin()
+    {
+        super();
+    }
+
+    protected DotPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
+    {
+        super(loader, description, dataFolder, file);
+    }
+
     private File messagesFile;
     private FileConfiguration messagesConfiguration;
     private Messages messages;
@@ -77,11 +89,6 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
      * @return
      */
     public abstract String[] getConfigFilenames();
-
-    /**
-     * Run any additional logic required for fully reloading your plugin here.
-     */
-    public abstract void fullReload();
 
     /**
      * Get virtual configuration

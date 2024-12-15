@@ -1,11 +1,12 @@
 package co.dotarch.x.plugin;
 
+import co.dotarch.x.commands.admin.ObjectCommand;
 import co.dotarch.x.data.*;
 import com.google.gson.Gson;
 import co.dotarch.x.DotPlugin;
 import co.dotarch.x.FeaturePack;
-import co.dotarch.x.commands.DotAPICommand;
-import co.dotarch.x.commands.VConfigCommand;
+import co.dotarch.x.commands.info.DotAPICommand;
+import co.dotarch.x.commands.admin.VConfigCommand;
 import co.dotarch.x.web.WebserverThread;
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -53,7 +54,7 @@ public class DotX extends DotPlugin
 			e.printStackTrace();
 		}
 		playerCache = new PlayerCache();
-		//objectCache = new ObjectCache();
+		objectCache = new ObjectCache();
 		blockCache = new BlockCache();
 		bukkitScheduler = Bukkit.getScheduler();
 		miniMessage = MiniMessage.miniMessage();
@@ -64,6 +65,9 @@ public class DotX extends DotPlugin
 		getServer().getPluginManager().registerEvents(web, this);
 		this.getCommand("dotapi").setExecutor(new DotAPICommand());
 		this.getCommand("vconfig").setExecutor(new VConfigCommand());
+		var objectCommand = new ObjectCommand();
+		this.getCommand("object").setExecutor(objectCommand);
+		this.getCommand("object").setTabCompleter(objectCommand);
 		getLogger().info("DotX API plugin enabled");
 	}
 
@@ -73,12 +77,6 @@ public class DotX extends DotPlugin
 		//objectCache.saveAll();
 		getLogger().info("DotAPI disabled");
 		self=null;
-	}
-
-	@Override
-	public void fullReload()
-	{
-
 	}
 
 	public void restartWebserver()

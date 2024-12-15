@@ -8,24 +8,24 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.UUID;
 
-public record DotObject(ObjectCache cache, UUID uuid, String type, HashMap<String, String> properties)
+public record DotObject(ObjectCache cache, String key, String type, HashMap<String, String> properties)
 {
 
-    static final HashMap<String, String> initHashMap = new HashMap<String, String>();
+    public static final HashMap<String, String> initHashMap = new HashMap<String, String>();
 
-    String serialize()
+    public String serialize()
     {
         return DotX.instance().gson().toJson(properties);
     }
 
-    static DotObject load(@NotNull UUID uuid, @NotNull String type, @NotNull ObjectCache cache)
+    static DotObject load(@NotNull String key, @NotNull String type, @NotNull ObjectCache cache)
     {
-        return load(uuid, type, cache, initHashMap);
+        return load(key, type, cache, initHashMap);
     }
 
-    static DotObject load(@NotNull UUID uuid, @NotNull String type, @NotNull ObjectCache cache, @NotNull HashMap<String, String> initializationMapIfMissing)
+    static DotObject load(@NotNull String key, @NotNull String type, @NotNull ObjectCache cache, @NotNull HashMap<String, String> initializationMapIfMissing)
     {
-        var loadedDotObject = DotX.databaseHelper.readObject(uuid, type, cache, initializationMapIfMissing);
+        var loadedDotObject = DotX.databaseHelper.readObject(key, type, cache, initializationMapIfMissing);
         ObjectLoadedEvent event = new ObjectLoadedEvent(loadedDotObject);
         Bukkit.getPluginManager().callEvent(event);
         return loadedDotObject;
@@ -82,5 +82,10 @@ public record DotObject(ObjectCache cache, UUID uuid, String type, HashMap<Strin
         {
             save();
         }
+    }
+
+    public void delete()
+    {
+        DotX.databaseHelper.deleteObject(this);
     }
 }

@@ -134,6 +134,7 @@
             <version>1.5.8</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
     <profiles>
         <profile>

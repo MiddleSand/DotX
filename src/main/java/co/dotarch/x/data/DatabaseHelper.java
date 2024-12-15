@@ -125,16 +125,16 @@ public class DatabaseHelper {
 
 	private void createObjectsTable() {
 		String sqlString = "CREATE TABLE " + plugin.getDbPrefix() + OBJECTS_TABLE
-				+ " (uuid VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, json JSON NOT NULL);";
+				+ " (objkey VARCHAR(512) NOT NULL, objtype TEXT NOT NULL, json JSON NOT NULL, PRIMARY KEY (objkey));";
 		manager.runInstantTask(new DatabaseTask(sqlString));
 	}
 
-	public DotObject readObject(@NonNull UUID uuid, @NonNull String type, @NonNull ObjectCache cache, @Nullable HashMap<String, String> initializeIfMissing)
+	public DotObject readObject(@NonNull String key, @NonNull String type, @NonNull ObjectCache cache, @Nullable HashMap<String, String> initializeIfMissing)
 	{
-		String serialString = getObjectIfExists(uuid, type);
+		String serialString = getObjectIfExists(key, type);
 		if (!Objects.equals(serialString, ""))
 		{
-			return new DotObject(cache, uuid, type, DotX.instance().gson().fromJson(serialString, HashMap.class));
+			return new DotObject(cache, key, type, DotX.instance().gson().fromJson(serialString, HashMap.class));
 		}
 		else
 		{
@@ -148,11 +148,11 @@ public class DatabaseHelper {
 				initializationMap = initializeIfMissing;
 			}
 
-			DotObject object = new DotObject(cache, uuid, type, initializationMap);
+			DotObject object = new DotObject(cache, key, type, initializationMap);
 
-			String sqlString = "INSERT INTO " + plugin.getDbPrefix() + OBJECTS_TABLE + " (uuid, type, json) VALUES (?,?, ?)";
+			String sqlString = "INSERT INTO " + plugin.getDbPrefix() + OBJECTS_TABLE + " (objkey, objtype, json) VALUES (?,?, ?)";
 			manager.addDelayTask(new DatabaseTask(sqlString, (ps) -> {
-				ps.setString(1, uuid.toString());
+				ps.setString(1, key);
 				ps.setString(2, type);
 				ps.setString(3, object.serialize());
 			}));
@@ -161,10 +161,10 @@ public class DatabaseHelper {
 		}
 	}
 
-	public HashMap<UUID, DotObject> readType(@NonNull String type, @NonNull ObjectCache cache)
+	public HashMap<String, DotObject> readType(@NonNull String type, @NonNull ObjectCache cache)
 	{
-		HashMap<UUID, DotObject> ret = new HashMap<>();
-		String sqlString = "SELECT * FROM " + plugin.getDbPrefix() + OBJECTS_TABLE + " WHERE type = '" + type +  "'";
+		HashMap<String, DotObject> ret = new HashMap<>();
+		String sqlString = "SELECT * FROM " + plugin.getDbPrefix() + OBJECTS_TABLE + " WHERE objtype = '" + type +  "'";
 		DatabaseConnection connection = manager.getDatabase().getConnection();
 		try {
 			Statement statement = connection.get().createStatement();
@@ -175,11 +175,11 @@ public class DatabaseHelper {
 						try {
 							while(results.next())
 							{
-								var uuid = UUID.fromString(results.getString("uuid"));
+								var key = results.getString("objkey");
 								var serialString = results.getString("json");
 								var decodedProperties = DotX.instance().gson().fromJson(serialString, HashMap.class);
-								DotObject object = new DotObject(cache, uuid, type, decodedProperties);
-								ret.put(uuid, object);
+								DotObject object = new DotObject(cache, key, type, decodedProperties);
+								ret.put(key, object);
 							}
 						} catch (Exception resultSetException) {
 							resultSetException.printStackTrace();
@@ -201,17 +201,17 @@ public class DatabaseHelper {
 
 	public void updateObject(DotObject object)
 	{
-		String sqlString = "UPDATE " + plugin.getDbPrefix() + OBJECTS_TABLE + " SET json = ? WHERE uuid = ?, type = ?";
+		String sqlString = "UPDATE " + plugin.getDbPrefix() + OBJECTS_TABLE + " SET json = ? WHERE objkey = ? AND objtype = ?";
 		manager.addDelayTask(new DatabaseTask(sqlString, (ps) -> {
 			ps.setString(1, object.serialize());
-			ps.setString(2, object.uuid().toString());
+			ps.setString(2, object.key());
 			ps.setString(3, object.type());
 		}));
 	}
 
-	public String getObjectIfExists(UUID object, String type) {
+	public String getObjectIfExists(String key, String type) {
 		String value = "";
-		String sqlString = "SELECT * FROM " + plugin.getDbPrefix() + OBJECTS_TABLE + " WHERE uuid = '" + object.toString() + "' AND type = '" + type +  "'";
+		String sqlString = "SELECT * FROM " + plugin.getDbPrefix() + OBJECTS_TABLE + " WHERE objkey = '" + key + "' AND objtype = '" + type +  "'";
 		DatabaseConnection connection = manager.getDatabase().getConnection();
 		try {
 			Statement statement = connection.get().createStatement();
@@ -220,7 +220,7 @@ public class DatabaseHelper {
 					ResultSet results = statement.executeQuery(sqlString);
 					if (results != null) {
 						try {
-							if (results.next()!= false) {
+							if (results.next()) {
 								value = results.getString("json");
 							}
 						} catch (Exception resultSetException) {
@@ -240,6 +240,18 @@ public class DatabaseHelper {
 		connection.release();
 		return value;
 	}
+
+
+
+	public void deleteObject(DotObject obj)
+	{
+		String deleteQuery = "DELETE FROM " + plugin.getDbPrefix() + OBJECTS_TABLE + " WHERE objkey = ? AND objtype = ?";
+		manager.addDelayTask(new DatabaseTask(deleteQuery, (ps) -> {
+			ps.setString(1, obj.key());
+			ps.setString(2, obj.type());
+		}));
+	}
+
 
 	/**
 	 * DotBlock table + handling
@@ -363,7 +375,5 @@ public class DatabaseHelper {
 		ResultSet resultSet = st.executeQuery(selectAllTaxes);
 		return new WarpedResultSet(st, resultSet, databaseConnection);
 	}
-
-
 
 }

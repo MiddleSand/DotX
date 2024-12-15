@@ -1,6 +1,5 @@
-package co.dotarch.x.commands;
+package co.dotarch.x.commands.admin;
 
-import co.dotarch.x.DotPlugin;
 import co.dotarch.x.block.BlockBehavior;
 import co.dotarch.x.data.DotBlock;
 import co.dotarch.x.plugin.DotX;

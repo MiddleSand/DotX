@@ -1,4 +1,4 @@
-package co.dotarch.x.commands;
+package co.dotarch.x.commands.admin;
 
 import co.dotarch.x.plugin.DotX;
 import co.dotarch.x.DotPlugin;

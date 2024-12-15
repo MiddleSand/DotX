@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class PlayerCache implements Listener
 {
-    private static HashMap<UUID, DotPlayer> cache = new HashMap<>();
+    private final HashMap<UUID, DotPlayer> cache = new HashMap<>();
 
     public DotPlayer get(Player player)
     {

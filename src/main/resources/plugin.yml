@@ -7,13 +7,17 @@ depend: [PlaceholderAPI]
 commands:
   dotapi:
     description: Information about DotAPI
-    permission: dotapi
+    permission: dotarch.x.version
     usage: "§cUsage: /<command>"
   vconfig:
     description: VConfig options
-    permission: dotapi.vconfig
+    permission: dotarch.x.vconfig
     usage: "§cUsage: /<command>"
   dotblock:
     description: Get dot block
-    permission: dotapi.dotblock
+    permission: dotarch.x.dotblock
+    usage: "§cUsage: /<command> <material> <class>"
+  object:
+    description: Utilities for handling database objects
+    permission: dotarch.x.dotblock
     usage: "§cUsage: /<command> <material> <class>"
