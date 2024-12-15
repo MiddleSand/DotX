@@ -19,5 +19,9 @@ commands:
     usage: "§cUsage: /<command> <material> <class>"
   object:
     description: Utilities for handling database objects
-    permission: dotarch.x.dotblock
-    usage: "§cUsage: /<command> <material> <class>"
+    permission: dotarch.x.objectdata
+    usage: "§cUsage: /<command> <get|set|delete>"
+  playerdata:
+    description: Utilities for handling DotX player data
+    permission: dotarch.x.playerdata
+    usage: "§cUsage: /<command> <get|set|delete>"

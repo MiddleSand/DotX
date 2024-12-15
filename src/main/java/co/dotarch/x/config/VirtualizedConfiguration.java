@@ -50,8 +50,6 @@ public class VirtualizedConfiguration
         // == Don't clear because otherwise hot reload refs break!! == // this.entries.clear();
         var changes = new HashMap<String, Pair<Object, Object>>();
         for (String key : getUnderlying().getKeys(true)) {
-            this.plugin.getLogger().warning(key);
-            this.plugin.getLogger().warning(getUnderlying().get(key).toString());
             VirtualConfigEntry newVal;
             VirtualConfigEntry oldVal;
             if(!expectingPrevious)

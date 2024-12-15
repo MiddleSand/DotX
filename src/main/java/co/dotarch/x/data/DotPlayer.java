@@ -35,7 +35,7 @@ public class DotPlayer
     static final HashMap<String, String> initHashMap = new HashMap<String, String>();
     private final HashMap<String, String> transientProperties = new HashMap<String, String>();
 
-    String serialize()
+    public String serialize()
     {
         return DotX.instance().gson().toJson(properties);
     }
@@ -105,6 +105,21 @@ public class DotPlayer
         {
             save();
         }
+    }
+
+    /**
+     * Removes property, allowing you to decide to save
+     * @param key string key
+     * @param save if true, persists to DB
+     */
+    public String removeProperty(String key, boolean save)
+    {
+        var er = properties.remove(key);
+        if(save)
+        {
+            save();
+        }
+        return er;
     }
 
     /**

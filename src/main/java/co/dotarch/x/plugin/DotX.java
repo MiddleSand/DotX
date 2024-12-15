@@ -1,6 +1,7 @@
 package co.dotarch.x.plugin;
 
 import co.dotarch.x.commands.admin.ObjectCommand;
+import co.dotarch.x.commands.admin.PlayerDataCommand;
 import co.dotarch.x.data.*;
 import com.google.gson.Gson;
 import co.dotarch.x.DotPlugin;
@@ -68,6 +69,9 @@ public class DotX extends DotPlugin
 		var objectCommand = new ObjectCommand();
 		this.getCommand("object").setExecutor(objectCommand);
 		this.getCommand("object").setTabCompleter(objectCommand);
+		var playerDataCommand = new PlayerDataCommand();
+		this.getCommand("playerdata").setExecutor(playerDataCommand);
+		this.getCommand("playerdata").setTabCompleter(playerDataCommand);
 		getLogger().info("DotX API plugin enabled");
 	}
 
