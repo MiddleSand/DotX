@@ -66,7 +66,7 @@ public class DotPlayer
      */
     public boolean initializeProperty(String key, String value, boolean saveToDB)
     {
-        boolean existedAlready = !hasProperty(key);
+        boolean existedAlready = hasProperty(key);
         if(!existedAlready) writeProperty(key, value, saveToDB);
         return existedAlready;
     }
