@@ -1,7 +1,9 @@
 name: Maven Library Publish
 
     
-on: workflow_dispatch
+on: 
+  release:
+    types: [ created ]
 
 jobs:
   publish:
