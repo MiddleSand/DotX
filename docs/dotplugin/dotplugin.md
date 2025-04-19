@@ -6,16 +6,15 @@ DotX provides a **DotPlugin** class. This class lets you use DotX features with 
 ### ExamplePlugin.java
 
 ```java
-package dotarch.api;
+package com.example;
 
 import co.dotarch.x.DotPlugin;
 import co.dotarch.x.data.DotPlayer;
 
-public class DotX extends DotPlugin
+public class DotExample extends DotPlugin
 {
 
-    private static DotX theInstance; // You'll need this lol.
-
+    private static DotExample theInstance; // You'll need this lol.
 
     @Override
     public void onEnable()
@@ -55,16 +54,27 @@ public class DotX extends DotPlugin
                 };
     }
 
-    public static DotX instance()
+    /**
+     * Used to magically get plugin instance when peforming VConfig on your config files.
+     * @return Your plugin instance
+     */
+    public static DotExample instance()
     {
-        // Use to get your plugin, and called by the DotX command /vconfig update to get your plugin instance.
         return self;
     }
 
+    /**
+     * This allows you to use property initialization methods on DotPlayers whenever the player logs in
+     * 
+     * Use this to set your default values for new players, and do whatever else you need when someone logs in.
+     * 
+     * For more advanced logic, you are welcome to use
+     * 
+     * @param player The player who just logged into the server, and whose information has been loaded.
+     */
     @Override
     public void handleLoadedPlayer(DotPlayer player)
     {
-        // This is where you initialize your properties, including transient ones.
     }
 }
 

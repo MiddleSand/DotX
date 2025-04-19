@@ -22,7 +22,6 @@ Gradle:
 ```groovy
 compileOnly 'co.dotarch.paper:x:<!-- Latest version number -->' // The full Spigot server with no shadowing. Requires mavenLocal.
 ```
-[!NOTE]
-> I haven't tried using this with Gradle, if this is wrong please PR the correct usage. Sorry - I don't really use gradle XD
+> Note: I haven't tried using this with Gradle, if this is wrong please PR the correct usage. Sorry - I don't really use gradle XD
 
 ## [API usage](usage.md)

@@ -59,11 +59,11 @@ public class DotX extends DotPlugin
 		blockCache = new BlockCache();
 		bukkitScheduler = Bukkit.getScheduler();
 		miniMessage = MiniMessage.miniMessage();
-		web = new WebserverThread(this);
+		//web = new WebserverThread(this);
 
 		getServer().getPluginManager().registerEvents(playerCache, this);
 		getServer().getPluginManager().registerEvents(blockCache, this);
-		getServer().getPluginManager().registerEvents(web, this);
+		// getServer().getPluginManager().registerEvents(web, this);
 		this.getCommand("dotapi").setExecutor(new DotAPICommand());
 		this.getCommand("vconfig").setExecutor(new VConfigCommand());
 		var objectCommand = new ObjectCommand();
@@ -85,7 +85,7 @@ public class DotX extends DotPlugin
 
 	public void restartWebserver()
 	{
-		this.web = new WebserverThread(this);
+		//this.web = new WebserverThread(this);
 	}
 
 	@Override
@@ -150,7 +150,6 @@ public class DotX extends DotPlugin
 		String database   = this.getConfig().getString("db.database");
 		try {
 			AbstractDatabaseCore dbCore;
-			// SQLite database - Doing this handles file creation
 			dbCore = new MySQLCore(this,
 					connection,
 					username,

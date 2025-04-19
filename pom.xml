@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>co.dotarch.paper</groupId>
     <artifactId>x</artifactId>
-    <version>0.3.3.4</version>
+    <version>0.3.4.4</version>
 
     <name>DotX</name>
     <description>A flexible, modern API for developing Paper plugins</description>
@@ -105,17 +105,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.javalin</groupId>
-            <artifactId>javalin</artifactId>
-            <version>6.3.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.saicone.rtag</groupId>
             <artifactId>rtag</artifactId>
             <version>1.5.8</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Other modules -->
+        <!-- Other Rtag modules -->
         <dependency>
             <groupId>com.saicone.rtag</groupId>
             <artifactId>rtag-block</artifactId>
@@ -133,6 +128,25 @@
             <artifactId>rtag-item</artifactId>
             <version>1.5.8</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Web depends -->
+        <dependency>
+            <groupId>io.javalin</groupId>
+            <artifactId>javalin</artifactId>
+            <version>6.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>vue</artifactId>
+            <version>3.2.37</version>
+        </dependency>
+
+        <!-- UI library -->
+        <dependency>
+            <groupId>com.github.stefvanschie.inventoryframework</groupId>
+            <artifactId>IF</artifactId>
+            <version>0.10.19</version>
         </dependency>
 
     </dependencies>

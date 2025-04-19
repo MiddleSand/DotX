@@ -2,12 +2,14 @@ package co.dotarch.x.data;
 
 import co.dotarch.x.plugin.DotX;
 import co.dotarch.x.events.PlayerLoadedEvent;
+import co.dotarch.x.ui.InvMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Stack;
 import java.util.UUID;
 @RequiredArgsConstructor
 public class DotPlayer
@@ -35,6 +37,8 @@ public class DotPlayer
     static final HashMap<String, String> initHashMap = new HashMap<String, String>();
     private final HashMap<String, String> transientProperties = new HashMap<String, String>();
 
+    private final Stack<InvMenu> menuStack;
+
     public String serialize()
     {
         return DotX.instance().gson().toJson(properties);
@@ -48,11 +52,19 @@ public class DotPlayer
         return loadedDotPlayer;
     }
 
+    /**
+     * (Internal) Write the user's state to DB - you shouldn't need to do this.
+     */
     public void save()
     {
         DotX.databaseHelper.updateUser(this);
     }
 
+    /**
+     * Check if a given property key exists.
+     * @param key Key to lookup.
+     * @return True if a matching key exists, false otherwise.
+     */
     public boolean hasProperty(String key)
     {
         return properties.containsKey(key);
@@ -71,6 +83,13 @@ public class DotPlayer
         return existedAlready;
     }
 
+    /**
+     * Gets a property.
+     * @param key Key to access the value at.
+     * @param defaultValue Default value if the value isn't present in properties. Use as a just-in-case.
+     * @return Value, or default if missing.
+     * @return Value, or default if missing.
+     */
     public String getProperty(String key, String defaultValue)
     {
         var returnable = properties.get(key);
@@ -110,6 +129,15 @@ public class DotPlayer
     /**
      * Removes property, allowing you to decide to save
      * @param key string key
+     */
+    public String removeProperty(String key)
+    {
+        return removeProperty(key, true);
+    }
+
+    /**
+     * Removes property, allowing you to decide to save
+     * @param key string key
      * @param save if true, persists to DB
      */
     public String removeProperty(String key, boolean save)
@@ -123,10 +151,10 @@ public class DotPlayer
     }
 
     /**
-     *
-     * @param key
-     * @param defaultValue
-     * @return
+     * Gets a transient property.
+     * @param key Key to access the value at.
+     * @param defaultValue Default value if the value isn't present in the transient properties. Use as a just-in-case.
+     * @return Value, or default if missing.
      */
     public Object getTransient(String key, String defaultValue)
     {
@@ -139,13 +167,68 @@ public class DotPlayer
         return transientProperties.get(key);
     }
 
+    /**
+     * Writes a transient value.
+     * @param key Key to write the value at.
+     * @param store Value to store.
+     */
     public void writeTransient(String key, String store)
     {
         transientProperties.put(key, store);
     }
 
+    /**
+     * Check if a key exists within the transient properties map.
+     * @param key Key to lookup.
+     * @return True if exists, false otherwise.
+     */
     public boolean hasTransient(String key)
     {
         return transientProperties.containsKey(key);
+    }
+
+    /**
+     * Removes property, allowing you to decide to save
+     * @param key string key
+     */
+    public String removeTransient(String key)
+    {
+        return transientProperties.remove(key);
+    }
+
+    /**
+     * Navigate the player to a menu.
+     * @param menu The menu to navigate to.
+     * @return True if the menu could accommodate the player and has been displayed, false otherwise
+     */
+    public boolean navigateTo(InvMenu menu)
+    {
+        if(menu.canAccept(this))
+        {
+            menuStack.push(menu);
+            menu.land(this);
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * Navigates to the previously-accessed menu.
+     * @return True if there was a menu to leave, false otherwise.
+     */
+    public boolean navigateBack()
+    {
+        if(!menuStack.isEmpty())
+        {
+            menuStack.pop().back(this);
+            this.player.closeInventory();
+            if(!menuStack.isEmpty())
+            {
+                menuStack.peek().land(this);
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import co.dotarch.x.DotPlugin;
 import co.dotarch.x.config.VirtualConfigEntry;
 import co.dotarch.x.events.VConfigurationEvent;
 import io.javalin.Javalin;
+import io.javalin.vue.VueComponent;
 import io.javalin.http.staticfiles.Location;
 import lombok.Getter;
 import org.bukkit.event.EventHandler;
@@ -28,10 +29,12 @@ public class WebserverThread implements Listener
         this.serverPort = plugin.getVConfig("config.yml").getEntry("web.port");
         this.plugin.getLogger().info("Starting DotX webserver at localhost:" + serverPort.getInt());
         this.app = Javalin.create(config -> {
-                    config.staticFiles.add("/public", Location.CLASSPATH);
+                    config.staticFiles.enableWebjars();
+                    config.vue.vueInstanceNameInJs = "app";
                 })
                 .get("/", ctx -> ctx.result("Hello World"))
                 .start(serverPort.getInt());
+        this.app.get("/", new VueComponent("hello-world"));
         this.plugin.getLogger().info("Webserver started successfully!");
     }
 

@@ -4,7 +4,7 @@
   <groupId>co.dotarch.paper</groupId>
   <artifactId>x</artifactId>
   <name>DotX</name>
-  <version>0.3.2.4</version>
+  <version>0.3.3.4</version>
   <description>A flexible, modern API for developing Paper plugins</description>
   <url>https://github.com/MiddleSand/DotX</url>
   <issueManagement>

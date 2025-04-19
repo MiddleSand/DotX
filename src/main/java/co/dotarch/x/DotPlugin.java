@@ -111,7 +111,7 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
     }
 
     /**
-     * Get messages
+     * Get messages from the plugin you are calling this on.
      * @return Messages instance for your plugin
      */
     public Messages messages()
@@ -120,8 +120,8 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
     }
 
     /**
-     * Get the DotAPI plugin
-     * @return the DotAPI plugin
+     * Gets the DotX API in its plugin form
+     * @return the DotX plugin
      */
     public static DotX api()
     {
@@ -129,8 +129,11 @@ public abstract class DotPlugin extends JavaPlugin implements Listener
     }
 
     /**
-     * Called whenever a player is loaded - use to set up initial values etc.
-     * @param player
+     * Use this to set your default values for new players, and do whatever else you need when someone logs in.
+     *
+     * For more advanced logic, you are welcome to use {@link PlayerLoadedEvent}
+     *
+     * @param player The player who just logged into the server, and whose information has been loaded.
      */
     public abstract void handleLoadedPlayer(DotPlayer player);
 
